@@ -15,5 +15,3 @@ build-master:
     - docker build -t frontend .
     - docker tag frontend parthmehrotra/frontend
     - docker push parthmehrotra/frontend
-  only:
-    - master
