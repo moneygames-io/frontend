@@ -14,6 +14,8 @@ COPY webpack.config.js .
 COPY dist ./dist
 COPY src ./src
 
+nop
+
 EXPOSE 9000
 
 CMD ["npm", "run", "serve"]
