@@ -24,5 +24,7 @@ release:
     
 deploy:
   stage: deploy
+  only:
+    - master
   script:
     - ssh root@142.93.11.143 'cd main && ./restart'
