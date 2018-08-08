@@ -5,7 +5,6 @@ export default class Gameserver extends Canvasobject {
     constructor(gs, fixDPI) {
         super()
         this.gs = gs
-        this.offset = 5
         this.zoom = {
             zIn: false,
             zOut: false
@@ -55,6 +54,7 @@ export default class Gameserver extends Canvasobject {
 
         for (let r = 0; r < this.colors.length; r++) {
             for (let c = 0; c < this.colors[r].length; c++) {
+                this.offset = (gameAreaSize / this.colors.length) * 0.01
                 super.getContext().fillStyle = this.toHexString(this.colors[r][c])
                 super.getContext().fillRect(
                     (gameAreaSize / this.colors.length) * r + this.offset + (gameAreaOffsetW / 2),
