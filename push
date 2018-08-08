@@ -1,1 +1,1 @@
-docker build -t frontend . && docker tag frontend parthmehrotra/frontend && docker push parthmehrotra/frontend
+docker build -t frontend . && docker tag frontend moneygames/frontend && docker push moneygames/frontend
