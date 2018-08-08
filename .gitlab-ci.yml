@@ -15,12 +15,12 @@ build:
   stage: build
   script:
     - docker build -t frontend .
-    - docker tag frontend parthmehrotra/frontend
+    - docker tag frontend moneygames/frontend
     
 release:
   stage: release
   script:
-    - docker push parthmehrotra/frontend
+    - docker push moneygames/frontend
     
 deploy:
   stage: deploy
