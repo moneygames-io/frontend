@@ -15,12 +15,12 @@ build:
   stage: build
   script:
     - docker build -t frontend .
-    - docker tag frontend moneygames/frontend
+    - docker tag frontend moneygames/frontend:$(git rev-parse --abbrev-ref HEAD)
     
 release:
   stage: release
   script:
-    - docker push moneygames/frontend
+    - docker push moneygames/frontend:$(git rev-parse --abbrev-ref HEAD)
     
 deploy:
   stage: deploy
