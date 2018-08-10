@@ -1,39 +1,34 @@
 import Canvasobject from './canvasobject.js'
 
-export default class Matchmaker extends Canvasobject {
+export default class Payserver extends Canvasobject {
 
-    constructor(matchmakingURL, gameserverCallback) {
+    constructor(matchmakingURL, payserverCallback) {
         super();
         this.url = matchmakingURL;
-        this.gameserverCallback = gameserverCallback;
+        this.payserverCallback = payserverCallback;
         this.progress = 0;
     }
 
     getBitcoinAddress() {
         this.socket = new WebSocket(this.url);
-        this.socket.onmessage = this.matchmakingMessage.bind(this);
+        this.socket.onmessage = this.payserverMessage.bind(this);
     }
 
-    matchmakingMessage(e) {
+    payserverMessage(e) {
         let data = JSON.parse(e.data);
         console.log(data);
-        super.getContext().clearRect(0, 0, super.getContext().canvas.width, super.getContext().canvas.height)
-        // Name abbreviated for the sake of these examples her
-        var i = qrcodegen;
-        console.log(i);
-        var j = qrcodegen.qrcode;
-        console.log(j);
-        var ecl = qrcodegen.QrCode.Ecc.HIGH;
-    	var text = "Bitcoin Address";
-    	var segs = qrcodegen.QrSegment.makeSegments(text);
-    	var minVer = 1;
-    	var maxVer = 40;
-    	var mask = -1;
-    	var boostEcc = false;
-        var scale = 4;
-        var border = 4;
-    	var qr = qrcodegen.QrCode.encodeSegments(segs, ecl, minVer, maxVer, mask, boostEcc);
-        qr.drawCanvas(scale, border, canvas);
+        if (data['bitcoinAddress']) {
+            this.address = data['bitcoinAddress']
+            this.render()
+        }
+        if (data['token']) {
+            this.payserverCallback(data['token'])
+        }
     }
 
+    render() {
+        if (this.address) {
+            QR.draw(this.address, super.getContext().canvas)
+        } 
+    }
 }
