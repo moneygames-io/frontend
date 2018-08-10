@@ -1,5 +1,4 @@
 import Canvasobject from './canvasobject.js'
-import qrcodegen from './assets/qrcodegen.js'
 
 export default class Matchmaker extends Canvasobject {
 

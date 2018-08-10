@@ -15,14 +15,16 @@ build:
   stage: build
   script:
     - docker build -t frontend .
-    - docker tag frontend parthmehrotra/frontend
+    - docker tag frontend moneygames/frontend:$CI_COMMIT_REF_NAME
     
 release:
   stage: release
   script:
-    - docker push parthmehrotra/frontend
+    - docker push moneygames/frontend:$CI_COMMIT_REF_NAME
     
 deploy:
   stage: deploy
+  only:
+    - master
   script:
     - ssh root@142.93.11.143 'cd main && ./restart'
