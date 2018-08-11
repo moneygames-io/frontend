@@ -2,10 +2,10 @@ import Canvasobject from './canvasobject.js'
 
 export default class Matchmaker extends Canvasobject {
 
-    constructor(matchmakingURL, gameserverCallback) {
+    constructor(matchmakingURL, matchmakerDone) {
         super()
         this.url = matchmakingURL
-        this.gameserverCallback = gameserverCallback
+        this.matchmakerDone = matchmakerDone
         this.progress = 0
     }
 
@@ -22,7 +22,7 @@ export default class Matchmaker extends Canvasobject {
     matchmakingMessage(e) {
         let data = JSON.parse(e.data)
         if (data['Port']) {
-            this.gameserverCallback("ws://" + window.location.hostname + ":" + data['Port'] + "/ws")
+            this.matchmakerDone("ws://" + window.location.hostname + ":" + data['Port'] + "/ws")
         }
 
         if (data['Status']) {
