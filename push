@@ -1,2 +1,1 @@
-fdocker build -t frontend . && docker tag frontend moneygames/frontend:$(git rev-parse --abbrev-ref HEAD) && docker push moneygames/frontend:$(git rev-parse --abbrev-ref HEAD)
-echo "Done"
+docker build -t frontend . && docker tag frontend moneygames/frontend:$(git rev-parse --abbrev-ref HEAD) && docker push moneygames/frontend:$(git rev-parse --abbrev-ref HEAD)
