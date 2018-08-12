@@ -2,8 +2,9 @@ import Canvasobject from './canvasobject.js'
 
 export default class Gameserver extends Canvasobject {
 
-    constructor(gs, fixDPI) {
+    constructor(gs, token) {
         super()
+        this.token = token
         this.gs = gs
         this.zoom = {
             zIn: false,
@@ -26,8 +27,7 @@ export default class Gameserver extends Canvasobject {
 
     socketOpened() {
         this.socket.send(JSON.stringify({
-            'Name': 'Parth',
-            'Token': 'token'
+            'Token': this.token
         }))
     }
 
@@ -109,7 +109,7 @@ export default class Gameserver extends Canvasobject {
                 this.zoom.zIn = false
                 break
             case "w":
-                this.zoom.zOut = false 
+                this.zoom.zOut = false
                 break
         }
 
