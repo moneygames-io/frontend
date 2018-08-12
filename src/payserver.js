@@ -25,7 +25,6 @@ export default class Payserver extends Canvasobject {
                     this.dataURL = url
                     this.render()
                 })
-
         }
         if (data['token']) {
             this.payserverCallback(data['token'])
@@ -40,7 +39,7 @@ export default class Payserver extends Canvasobject {
                 ctx.drawImage(img, 0, 0)
             }
             img.src = this.dataURL
-        } 
+        }
 
         if (this.address) {
             ctx.font = "40px Arial"

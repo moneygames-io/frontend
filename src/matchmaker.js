@@ -9,13 +9,17 @@ export default class Matchmaker extends Canvasobject {
         this.progress = 0
     }
 
-    joinQueue() {
+    joinQueue(token) {
+        this.token = token
         this.socket = new WebSocket(this.url)
         this.socket.onopen = this.socketOpened.bind(this)
         this.socket.onmessage = this.matchmakingMessage.bind(this)
     }
 
     socketOpened() {
+        this.socket.send(JSON.stringify({
+            'Token': this.token
+        }))
         window.requestAnimationFrame(this.render.bind(this))
     }
 
@@ -28,6 +32,7 @@ export default class Matchmaker extends Canvasobject {
         if (data['Status']) {
             this.updateStatus(data['Status'])
         }
+
     }
 
     updateStatus(s) {
