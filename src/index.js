@@ -12,13 +12,13 @@ class Index {
         this.payserver.destroyCanvas()
         this.token = token
         this.matchmaker = new Matchmaker("ws://" + window.location.hostname + ":8000/ws", this.matchmakerDone.bind(this))
-        this.matchmaker.joinQueue(token)
+        this.matchmaker.joinQueue(this.token)
     }
 
     matchmakerDone(gs) {
         this.matchmaker.destroyCanvas()
-        let gameserver = new Gameserver(gs, this.token)
-        gameserver.connect()
+        let gameserver = new Gameserver(gs)
+        gameserver.connect(this.token)
     }
 }
 
