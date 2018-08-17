@@ -4,7 +4,7 @@ import Payserver from './payserver.js'
 
 class Index {
     constructor() {
-        this.payserver = new Payserver("ws://"+window.location.hostname+ ":7000/ws", this.payserverDone.bind(this))
+        this.payserver = new Payserver("ws://" + window.location.hostname + ":7000/ws", this.payserverDone.bind(this))
         this.payserver.getBitcoinAddress()
     }
 
