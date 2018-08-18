@@ -32,6 +32,7 @@ export default class Payserver extends Canvasobject {
 
         if (data['status']) {
             if (data['status'] === 'paid') {
+                console.log(this.token)
                 this.payserverCallback(this.token)
             }
         }
