@@ -25,7 +25,6 @@ export default class Payserver extends Canvasobject {
                     this.dataURL = url
                     this.render()
                 })
-
         }
         if (data['token']) {
             this.saveToken(data['token'])

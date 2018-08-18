@@ -2,7 +2,7 @@ import Canvasobject from './canvasobject.js'
 
 export default class Gameserver extends Canvasobject {
 
-    constructor(gs, fixDPI) {
+    constructor(gs) {
         super()
         this.gs = gs
         this.zoom = {
@@ -18,7 +18,8 @@ export default class Gameserver extends Canvasobject {
         window.addEventListener('keyup', this.handleKeyUp.bind(this), false)
     }
 
-    connect() {
+    connect(token) {
+        this.token = token
         this.socket = new WebSocket(this.gs)
         this.socket.onopen = this.socketOpened.bind(this)
         this.socket.onmessage = this.mapReceived.bind(this)
@@ -26,8 +27,7 @@ export default class Gameserver extends Canvasobject {
 
     socketOpened() {
         this.socket.send(JSON.stringify({
-            'Name': 'Parth',
-            'Token': 'token'
+            'Token': this.token
         }))
     }
 
