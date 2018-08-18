@@ -84,13 +84,13 @@ export default class Gameserver extends Canvasobject {
             case "q":
                 if (!this.zoom.zIn) {
                     this.controls.CurrentZoomLevel++
-                    this.zoom.zIn = true
+                        this.zoom.zIn = true
                 }
                 break
             case "w":
                 if (!this.zoom.zOut) {
                     this.controls.CurrentZoomLevel--
-                    this.zoom.zIn = true
+                        this.zoom.zIn = true
                 }
                 break
             case " ":
