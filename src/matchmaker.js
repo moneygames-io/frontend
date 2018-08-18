@@ -4,6 +4,7 @@ export default class Matchmaker extends Canvasobject {
 
     constructor(matchmakingURL, matchmakerDone) {
         super()
+        console.log("starting up matchmker")
         this.url = matchmakingURL
         this.matchmakerDone = matchmakerDone
         this.progress = 0

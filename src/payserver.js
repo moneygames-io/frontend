@@ -28,8 +28,18 @@ export default class Payserver extends Canvasobject {
 
         }
         if (data['token']) {
-            this.payserverCallback(data['token'])
+            this.saveToken(data['token'])
         }
+
+        if (data['status']) {
+            if (data['status'] === 'paid') {
+                this.payserverCallback(this.token)
+            }
+        }
+    }
+
+    saveToken(token) {
+        this.token = token // TODO actual persistence
     }
 
     render() {
