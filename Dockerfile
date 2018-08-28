@@ -11,8 +11,8 @@ COPY package.json .
 RUN npm i
 
 COPY webpack.config.js .
-COPY dist ./dist
-COPY src ./src
+COPY static ./static
+COPY js ./js
 
 EXPOSE 9000
 

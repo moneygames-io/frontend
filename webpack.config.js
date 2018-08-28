@@ -2,13 +2,13 @@ const path = require('path');
 
 module.exports = {
   mode: "development",
-  entry: './src/index.js',
+  entry: './js/maincontroller.js',
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist')
+    path: path.resolve(__dirname, 'static')
   },
   devServer: {
-    contentBase: path.join(__dirname, "dist"),
+    contentBase: path.join(__dirname, "static"),
     disableHostCheck: true,
     compress: true,
     port: 9000

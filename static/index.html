@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="modal.css" media="screen" />
+</head>
+
+<body>
+    <div class="md-modal md-effect md-show" id="modal">
+        <div class="md-content" id="popup">
+            <div class="dialog-buttons">
+                <a id="spectate-button" class="waves-effect waves-light btn">Spectate</a>
+            </div>
+            <div id="play-button" class="dialog-buttons">
+                <a class="waves-effect waves-light btn">Play</a>
+            </div>
+
+        </div>
+    </div>
+    <div id="main-container" class="game-container">
+        <div id="left">
+            <div id="game-list">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Players</th>
+                            <th>Pot</th>
+                        </tr>
+                    </thead>
+                    <tbody id="game-list-table">
+                        
+                    </tbody>
+                </table>
+            </div>
+            <div id="controls">
+              <img src="https://via.placeholder.com/500x500">
+            </div>
+        </div>
+        <div id="body">
+        </div>
+        <div id="right">
+            <div id="leaderboard">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Player</th>
+                            <th>Length</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div id="minimap">
+            </div>
+        </div>
+    </div>
+    <div class="md-overlay"></div><!-- the overlay element -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
+    <script src="bundle.js"></script>
+</body>
+
+</html>
