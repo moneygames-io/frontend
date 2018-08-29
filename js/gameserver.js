@@ -22,7 +22,7 @@ export default class Gameserver extends Canvasobject {
         this.token = token
         this.socket = new WebSocket(this.gs)
         this.socket.onopen = this.socketOpened.bind(this)
-        this.socket.onmessage = this.mapReceived.bind(this)
+        this.socket.onmessage = this.dataReceived.bind(this)
     }
 
     socketOpened() {
@@ -31,11 +31,31 @@ export default class Gameserver extends Canvasobject {
         }))
     }
 
-    mapReceived(e) {
-        console.log(e)
-        this.colors = JSON.parse(e.data)
-        window.requestAnimationFrame(this.render.bind(this))
-        this.sendKeyStatus()
+    dataReceived(e) {
+        let data = JSON.parse(e.data)
+        if (data['Perspective']) {
+            this.colors = data['Perspective']
+            window.requestAnimationFrame(this.render.bind(this))
+            this.sendKeyStatus()
+        }
+
+        if (data['Leaderboard']) {
+            this.leaderboard = data['Leaderboard']
+            this.updateLeaderboard()
+        }
+
+        if (data['Minimap']) {
+            this.minimap = data['Minimap']
+            this.updateMinimap()
+        }
+    }
+
+    updateLeaderboard() {
+        console.log(this.leaderboard)
+    }
+
+    updateMinimap() {
+        console.log(this.minimap)
     }
 
     toHexString(n) {
