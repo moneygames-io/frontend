@@ -1,10 +1,13 @@
 import Canvasobject from './canvasobject.js'
 
+import Leaderboard from './leaderboard.js'
+
 export default class Gameserver extends Canvasobject {
 
     constructor(gs) {
         super()
         this.gs = gs
+        this.leaderboard = new Leaderboard()
         this.zoom = {
             zIn: false,
             zOut: false
@@ -40,18 +43,13 @@ export default class Gameserver extends Canvasobject {
         }
 
         if (data['Leaderboard']) {
-            this.leaderboard = data['Leaderboard']
-            this.updateLeaderboard()
+            this.leaderboard.setLeaderboard(data['Leaderboard'])
         }
 
         if (data['Minimap']) {
             this.minimap = data['Minimap']
             this.updateMinimap()
         }
-    }
-
-    updateLeaderboard() {
-        console.log(this.leaderboard)
     }
 
     updateMinimap() {
