@@ -13,10 +13,11 @@ export default class Leaderboard {
     setLeaderboard(data) {
         this.clearTable()
         for (let datum in data) {
-            let row = this.table.insertRow(0);
+            let row = this.table.insertRow(-1);
             row.style.color = this.toHexString(data[datum].Color)
-            row.insertCell(0).innerHTML = data[datum].Name;
-            row.insertCell(1).innerHTML = data[datum].Length;
+            row.insertCell(0).innerHTML = data[datum].Rank + 1;
+            row.insertCell(1).innerHTML = data[datum].Name;
+            row.insertCell(2).innerHTML = "฿" + data[datum].Length;
         }
     }
 

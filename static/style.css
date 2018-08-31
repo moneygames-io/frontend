@@ -36,7 +36,7 @@ img {
     height: 20vw;
 }
 
-#body {
+#game-area {
     width: 60vw;
     height: 100vh;
     display: inline-block;

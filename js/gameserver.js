@@ -1,13 +1,15 @@
 import Canvasobject from './canvasobject.js'
 
 import Leaderboard from './leaderboard.js'
+import Minimap from './minimap.js'
 
 export default class Gameserver extends Canvasobject {
 
     constructor(gs) {
-        super()
+        super('game-area')
         this.gs = gs
         this.leaderboard = new Leaderboard()
+        this.minimap = new Minimap()
         this.zoom = {
             zIn: false,
             zOut: false
@@ -47,13 +49,8 @@ export default class Gameserver extends Canvasobject {
         }
 
         if (data['Minimap']) {
-            this.minimap = data['Minimap']
-            this.updateMinimap()
+            this.minimap.setMinimap(data['Minimap'])
         }
-    }
-
-    updateMinimap() {
-        console.log(this.minimap)
     }
 
     toHexString(n) {

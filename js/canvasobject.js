@@ -1,7 +1,7 @@
 export default class Canvasobject {
-    constructor() {
+    constructor(el) {
         this.canvas = this.createCanvas()
-        document.getElementById('body').appendChild(this.canvas)
+        document.getElementById(el).appendChild(this.canvas)
         this.fixDPI()
 
         this.context = this.canvas.getContext('2d')
