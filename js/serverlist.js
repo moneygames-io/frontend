@@ -22,9 +22,11 @@ export default class ServerList {
     }
 
     addData(data) {
-        for (let datum in data) {
+        for (let gameserver in data) {
             let row = this.table.insertRow(0);
-            row.insertCell(0).innerHTML = data[datum];
+            row.insertCell(0).innerHTML = gameserver;
+            row.insertCell(1).innerHTML = data[gameserver]["Players"]
+            row.insertCell(2).innerHTML = data[gameserver]["Pot"]
         }
     }
 
