@@ -28,7 +28,7 @@ img {
 #game-list {
     width: 100%;
     height: calc(100% - 20vw);
-    overflow: scroll;
+    overflow: hidden;
 }
 
 #controls {
@@ -36,7 +36,7 @@ img {
     height: 20vw;
 }
 
-#body {
+#game-area {
     width: 60vw;
     height: 100vh;
     display: inline-block;
@@ -56,7 +56,7 @@ img {
 #leaderboard {
     width: 100%;
     height: calc(100% - 20vw);
-    overflow: scroll;
+    overflow: hidden;
 }
 
 .dialog-buttons {

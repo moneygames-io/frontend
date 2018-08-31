@@ -1,10 +1,15 @@
 import Canvasobject from './canvasobject.js'
 
+import Leaderboard from './leaderboard.js'
+import Minimap from './minimap.js'
+
 export default class Gameserver extends Canvasobject {
 
     constructor(gs) {
-        super()
+        super('game-area')
         this.gs = gs
+        this.leaderboard = new Leaderboard()
+        this.minimap = new Minimap()
         this.zoom = {
             zIn: false,
             zOut: false
@@ -22,7 +27,7 @@ export default class Gameserver extends Canvasobject {
         this.token = token
         this.socket = new WebSocket(this.gs)
         this.socket.onopen = this.socketOpened.bind(this)
-        this.socket.onmessage = this.mapReceived.bind(this)
+        this.socket.onmessage = this.dataReceived.bind(this)
     }
 
     socketOpened() {
@@ -31,11 +36,21 @@ export default class Gameserver extends Canvasobject {
         }))
     }
 
-    mapReceived(e) {
-        console.log(e)
-        this.colors = JSON.parse(e.data)
-        window.requestAnimationFrame(this.render.bind(this))
-        this.sendKeyStatus()
+    dataReceived(e) {
+        let data = JSON.parse(e.data)
+        if (data['Perspective']) {
+            this.colors = data['Perspective']
+            window.requestAnimationFrame(this.render.bind(this))
+            this.sendKeyStatus()
+        }
+
+        if (data['Leaderboard']) {
+            this.leaderboard.setLeaderboard(data['Leaderboard'])
+        }
+
+        if (data['Minimap']) {
+            this.minimap.setMinimap(data['Minimap'])
+        }
     }
 
     toHexString(n) {
