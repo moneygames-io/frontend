@@ -1,18 +1,25 @@
 import SetupDialog from './setupdialog.js'
+import axios from 'axios'
 
 class MainController {
     constructor() {
-        this.token = this.getStoredToken();
-        if (this.token == null) {
-            this.setupDialog = new SetupDialog()
-        } else {
-            // TODO go straight to payserver with this token
-        }
+        this.setupDialog = new SetupDialog()
+        this.checkForDisconnectToken()
     }
 
-    getStoredToken() {
-        // TODO
-        return null;
+    async checkForDisconnectToken() {
+        let token = await window.localStorage.getItem("token")
+        console.log(token)
+        if(token!= null){
+            let response = await axios.get("http://" + window.location.hostname + ":6002/player/"+token)
+            let status = response["data"]
+            if (status == "paid"){
+                this.setupDialog.payDone(token)
+            }
+            else{
+              window.localStorage.removeItem("token")
+            }
+        }
     }
 
     matchmakerDone(gs) {

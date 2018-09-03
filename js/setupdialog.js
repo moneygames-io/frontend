@@ -23,6 +23,7 @@ export default class SetupDialog {
 
     async payDone(token) {
         await this.clear()
+        window.localStorage.setItem("token",token)
         this.matchmaker = new Matchmaker(this.modal, token, this.matchmakerDone.bind(this))
     }
 
