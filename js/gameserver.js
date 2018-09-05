@@ -5,9 +5,10 @@ import Minimap from './minimap.js'
 
 export default class Gameserver extends Canvasobject {
 
-    constructor(gs) {
+    constructor(gs, sd) {
         super('game-area')
         this.gs = gs
+        this.setupdialog = sd
         this.leaderboard = new Leaderboard()
         this.minimap = new Minimap()
         this.zoom = {
@@ -38,6 +39,11 @@ export default class Gameserver extends Canvasobject {
 
     dataReceived(e) {
         let data = JSON.parse(e.data)
+
+        if ('pot' in data) {
+            this.pot = data['pot']
+        }
+
         if (data['Perspective']) {
             this.colors = data['Perspective']
             window.requestAnimationFrame(this.render.bind(this))
@@ -50,6 +56,13 @@ export default class Gameserver extends Canvasobject {
 
         if (data['Minimap']) {
             this.minimap.setMinimap(data['Minimap'])
+        }
+
+        if(data['status']=='won'){
+          this.setupdialog.setupReward(this.pot)
+          this.setupdialog.show()
+          window.removeEventListener('keydown', this.handleKeyDown.bind(this), false)
+          window.removeEventListener('keyup', this.handleKeyUp.bind(this), false)
         }
     }
 

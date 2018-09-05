@@ -23,13 +23,14 @@ export default class SetupDialog {
 
     async payDone(token) {
         await this.clear()
-        window.localStorage.setItem("token",token)
+        this.token = token
         this.matchmaker = new Matchmaker(this.modal, token, this.matchmakerDone.bind(this))
     }
 
     async matchmakerDone(token, gameserver) {
+        await this.clear()
         await this.dismiss()
-        this.serverlist.connectAsPlayer(token, gameserver)
+        this.serverlist.connectAsPlayer(token, gameserver, this)
     }
 
     async clear() {
@@ -40,6 +41,42 @@ export default class SetupDialog {
         await this.sleep(200)
         this.modal.innerHTML = ""
         this.modal.style.opacity = 1
+    }
+
+    show() {
+        document.getElementById('modal').classList.add('md-show')
+    }
+
+    setupReward(pot) {
+        this.pot
+        this.congratulations = document.createElement('h2')
+        this.congratulations.classList.add('bitcoin-info')
+        this.congratulations.innerHTML = 'You won ฿'+pot
+
+        this.instructions = document.createElement('p')
+        this.instructions.classList.add('bitcoin-info')
+        this.instructions.innerHTML = 'Enter your reward destination address'
+
+        this.destinationAddress = document.createElement('input')
+        this.destinationAddress.classList.add('bitcoin-info')
+
+        this.submitButton = document.createElement('a')
+        this.submitButton.classList.add('waves-effect')
+        this.submitButton.classList.add('waves-light')
+        this.submitButton.classList.add('btn')
+        this.submitButton.innerHTML = 'Send'
+        this.submitButton.onclick = this.sendReward.bind(this)
+
+        this.modal.appendChild(this.congratulations)
+        this.modal.appendChild(this.instructions)
+        this.modal.appendChild(this.destinationAddress)
+        this.modal.appendChild(this.submitButton)
+    }
+
+    async sendReward( ){
+        //must validate address before accepting it
+        this.payserver.sendDestinationAddress(this.token, this.destinationAddress.value)
+        await this.clear()
     }
 
     sleep(ms) {
