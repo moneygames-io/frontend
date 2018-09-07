@@ -1,16 +1,20 @@
 /* * { margin:0; padding:0; } /* to remove the top and left whitespace */
-
 /* html, body { width:100%; height:100%; } /* just to be sure these are full screen*/
+canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
 
-canvas { display:block; width:100%; height: 100%; } /* To remove the scrollbars*/
-
-html, body {
-  overflow: hidden;
+/* To remove the scrollbars*/
+html,
+body {
+    overflow: hidden;
 }
 
 img {
-      max-width: 100%;
-      max-height: 100%;
+    max-width: 100%;
+    max-height: 100%;
 }
 
 #main-container {
@@ -59,17 +63,23 @@ img {
     overflow: hidden;
 }
 
-.dialog-buttons {
-    text-align: center;
-}
-
 .bitcoin-info {
     color: black;
 }
 
 #container {
-  margin: 20px;
-  width: 200px;
-  height: 100px;
-  padding: 0;
+    margin: 20px;
+    width: 200px;
+    height: 100px;
+    padding: 0;
+}
+
+tbody tr:hover.selected td,
+tbody tr:hover td {
+  background-color: #FFEFC6;
+  cursor: pointer;
+}
+
+tbody tr.selected td {
+  background-color: #ffd659;
 }
