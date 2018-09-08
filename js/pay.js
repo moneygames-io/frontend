@@ -42,6 +42,7 @@ export default class Pay {
     }
 
     saveToken(token) {
-        this.token = token // TODO actual persistence
+        this.token = token
+        window.localStorage.setItem("token", token)
     }
 }
