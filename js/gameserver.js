@@ -31,8 +31,13 @@ export default class Gameserver extends Canvasobject {
     }
 
     socketOpened() {
+        let nickname = window.localStorage.getItem('nickname')
+        if (nickname == null) {
+            nickname = 'unnamed'
+        }
         this.socket.send(JSON.stringify({
-            'Token': this.token
+            'Token': this.token,
+            'Name': nickname
         }))
     }
 
@@ -100,13 +105,13 @@ export default class Gameserver extends Canvasobject {
             case "q":
                 if (!this.zoom.zIn) {
                     this.controls.CurrentZoomLevel++
-                    this.zoom.zIn = true
+                        this.zoom.zIn = true
                 }
                 break
             case "w":
                 if (!this.zoom.zOut) {
                     this.controls.CurrentZoomLevel--
-                    this.zoom.zIn = true
+                        this.zoom.zIn = true
                 }
                 break
             case " ":

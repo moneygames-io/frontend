@@ -27,7 +27,7 @@ export default class ServerList {
             row.insertCell(0).innerHTML = gameserver;
             row.insertCell(1).innerHTML = data[gameserver]["Players"]
             row.insertCell(2).innerHTML = data[gameserver]["Pot"]
-            
+
             row.onclick = function() {
                 this.connectAsSpectator(gameserver)
             }.bind(this)
@@ -37,12 +37,12 @@ export default class ServerList {
         }
     }
 
-	connectAsSpectator(gameserver) {
+    connectAsSpectator(gameserver) {
         this.server = gameserver
         console.log(this.server)
         this.gameserver = new Gameserver("ws://" + window.location.hostname + ":" + gameserver + "/ws")
         this.gameserver.connect("spectating")
-	}
+    }
 
     setName(name) {
         this.name = name

@@ -10,6 +10,7 @@ export default class SetupDialog {
         document.getElementById('spectate-button').onclick = this.spectatingPressed.bind(this)
         document.getElementById('play-button').onclick = this.playPressed.bind(this)
         M.updateTextFields()
+        this.setToPriorName()
     }
 
     spectatingPressed() {
@@ -30,6 +31,15 @@ export default class SetupDialog {
         }
     }
 
+    setToPriorName() {
+        let nickname = window.localStorage.getItem("nickname")
+        if (nickname == null) {
+            return
+        }
+
+        document.getElementById('nickname').value = nickname
+    }
+
     async playPressed() {
         this.name = this.getName()
         this.serverlist.leaveSpectatorMode()
@@ -39,7 +49,6 @@ export default class SetupDialog {
 
     async payDone(token) {
         await this.clear()
-        window.localStorage.setItem("token",token)
         this.matchmaker = new Matchmaker(this.modal, token, this.matchmakerDone.bind(this))
     }
 
