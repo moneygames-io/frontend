@@ -3,6 +3,7 @@
 
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="style.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="modal.css" media="screen" />
 </head>
@@ -10,14 +11,24 @@
 <body>
     <div class="md-modal md-effect md-show" id="modal">
         <div class="md-content" id="popup">
-            <div class="dialog-buttons">
+           <div class="row">
+                <form class="col s12">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="nickname" type="text" class="validate">
+                            <label for="nickname">Nickname</label>
+                        </div>
+                    </div>
+                </form>
+            </div> 
+            <div class="row dialog-buttons">
                 <a id="spectate-button" class="waves-effect waves-light btn">Spectate</a>
+                <a class="waves-effect waves-light btn" id="play-button">Play</a>
             </div>
-            <div id="play-button" class="dialog-buttons">
-                <a class="waves-effect waves-light btn">Play</a>
-            </div>
+            
 
         </div>
+    </div>
     </div>
     <div id="main-container" class="game-container">
         <div id="left">
@@ -31,12 +42,12 @@
                         </tr>
                     </thead>
                     <tbody id="game-list-table">
-                        
+
                     </tbody>
                 </table>
             </div>
             <div id="controls">
-              <img src="https://via.placeholder.com/500x500">
+                <img src="https://via.placeholder.com/500x500">
             </div>
         </div>
         <div id="game-area">
@@ -52,7 +63,7 @@
                         </tr>
                     </thead>
                     <tbody id="leaderboard-table">
-                      
+
                     </tbody>
                 </table>
             </div>
@@ -61,6 +72,7 @@
         </div>
     </div>
     <div class="md-overlay"></div><!-- the overlay element -->
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
     <script src="bundle.js"></script>
 </body>

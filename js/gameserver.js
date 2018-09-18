@@ -32,8 +32,13 @@ export default class Gameserver extends Canvasobject {
     }
 
     socketOpened() {
+        let nickname = window.localStorage.getItem('nickname')
+        if (nickname == null) {
+            nickname = 'unnamed'
+        }
         this.socket.send(JSON.stringify({
-            'Token': this.token
+            'Token': this.token,
+            'Name': nickname
         }))
     }
 
@@ -47,6 +52,7 @@ export default class Gameserver extends Canvasobject {
         if (data['Perspective']) {
             this.colors = data['Perspective']
             window.requestAnimationFrame(this.render.bind(this))
+            // TODO unless spectating
             this.sendKeyStatus()
         }
 
