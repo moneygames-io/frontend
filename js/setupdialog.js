@@ -101,8 +101,8 @@ export default class SetupDialog {
 
     async sendReward( ){
         //must validate address before accepting it
-        this.payserver.sendDestinationAddress(this.token, this.destinationAddress.value)
         await this.clear()
+        this.payserver.sendDestinationAddress(this.token, this.destinationAddress.value)
     }
 
     sleep(ms) {

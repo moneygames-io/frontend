@@ -44,7 +44,7 @@ export default class Pay {
             this.transactionId = data['transactionId']
             this.destinationAddress = data['destinationAddress']
             this.pot = data['pot']
-            showTransaction()
+            this.showTransaction()
         }
     }
 
@@ -55,6 +55,7 @@ export default class Pay {
             'pot': this.pot
         }
         this.socket.send(JSON.stringify(msg))
+        console.log(msg)
     }
 
     showTransaction(){
@@ -65,11 +66,9 @@ export default class Pay {
         this.description = document.createElement('p')
         this.description.classList.add('bitcoin-info')
         this.description.innerHTML =
-            'Congratulations. ฿'
-            +this.pot
-            +'has been sent to BitcoinAddress: '
+            'Congratulations your reward has been sent to BitcoinAddress: '
             +this.destinationAddress
-            +'with TransactionId: '
+            +' with TransactionId: '
             +this.transactionId
         this.modal.appendChild(this.sent)
         this.modal.appendChild(this.description)
