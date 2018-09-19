@@ -1,1 +1,7 @@
+if [ $(git rev-parse --abbrev-ref HEAD) == "master" ]
+then
+	echo "cannot push to master"
+	exit 1
+fi
+
 docker build -t ${PWD##*/} . && docker tag ${PWD##*/} moneygames/${PWD##*/}:$(git rev-parse --abbrev-ref HEAD) && docker push moneygames/${PWD##*/}:$(git rev-parse --abbrev-ref HEAD)

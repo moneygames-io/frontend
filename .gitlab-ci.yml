@@ -5,6 +5,8 @@ stages:
 
 before_script:
   - docker info
+  - echo $CI_PROJECT_NAME
+  - echo $CI_COMMIT_REF_NAME
   - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" 
   - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
   - eval $(ssh-agent -s)
@@ -14,13 +16,13 @@ before_script:
 build:
   stage: build
   script:
-    - docker build -t frontend .
-    - docker tag frontend moneygames/frontend:$CI_COMMIT_REF_NAME
+    - docker build -t $CI_PROJECT_NAME .
+    - docker tag $CI_PROJECT_NAME moneygames/$CI_PROJECT_NAME:$CI_COMMIT_REF_NAME
     
 release:
   stage: release
   script:
-    - docker push moneygames/frontend:$CI_COMMIT_REF_NAME
+    - docker push moneygames/$CI_PROJECT_NAME:$CI_COMMIT_REF_NAME
     
 deploy:
   stage: deploy

@@ -27,6 +27,7 @@ export default class SetupDialog {
         if (name === '') {
             return 'unnamed'
         } else {
+            window.localStorage.setItem("nickname", name)
             return name
         }
     }
