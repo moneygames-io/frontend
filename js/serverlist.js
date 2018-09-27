@@ -26,8 +26,7 @@ export default class ServerList {
             let row = this.table.insertRow(0);
             row.insertCell(0).innerHTML = gameserver;
             row.insertCell(1).innerHTML = data[gameserver]["Players"]
-            row.insertCell(2).innerHTML = data[gameserver]["Pot"]
-
+            row.insertCell(2).innerHTML = "฿ " + data[gameserver]["Pot"]
             row.onclick = function() {
                 this.connectAsSpectator(gameserver)
             }.bind(this)
@@ -52,8 +51,8 @@ export default class ServerList {
         this.spectatorMode = false;
     }
 
-    connectAsPlayer(token, gameserver) {
-        this.gameserver = new Gameserver(gameserver)
+    connectAsPlayer(token, gameserver, setupdialog) {
+        this.gameserver = new Gameserver(gameserver, setupdialog)
         this.gameserver.connect(token)
     }
 
