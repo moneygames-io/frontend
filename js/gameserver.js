@@ -20,8 +20,10 @@ export default class Gameserver extends Canvasobject {
             CurrentSprint: false,
             CurrentZoomLevel: 5
         }
-        window.addEventListener('keydown', this.handleKeyDown.bind(this), false)
-        window.addEventListener('keyup', this.handleKeyUp.bind(this), false)
+        this.keyUpEventFunction = this.handleKeyDown.bind(this)
+        this.keyDownEventFunction = this.handleKeyDown.bind(this)
+        window.addEventListener('keydown', this.keyUpEventFunction, false)
+        window.addEventListener('keyup', this.keyDownEventFunction, false)
     }
 
     connect(token) {
@@ -44,6 +46,7 @@ export default class Gameserver extends Canvasobject {
 
     dataReceived(e) {
         let data = JSON.parse(e.data)
+        console.log(data)
 
         if ('pot' in data) {
             this.pot = data['pot']
@@ -64,12 +67,17 @@ export default class Gameserver extends Canvasobject {
             this.minimap.setMinimap(data['Minimap'])
         }
 
-        if(data['status']=='won'){
-          this.setupdialog.setupReward(this.pot)
-          this.setupdialog.show()
-          window.removeEventListener('keydown', this.handleKeyDown.bind(this), false)
-          window.removeEventListener('keyup', this.handleKeyUp.bind(this), false)
+        if (data['status'] == 'won') {
+            this.removeEventListeners()
+            this.setupdialog.setupReward(this.pot)
+            this.setupdialog.show()
         }
+    }
+
+    removeEventListeners()
+    {
+        window.removeEventListener('keydown', this.keyUpEventFunction, false)
+        window.removeEventListener('keyup', this.keyDownEventFunction, false)
     }
 
     toHexString(n) {
@@ -118,13 +126,13 @@ export default class Gameserver extends Canvasobject {
             case "q":
                 if (!this.zoom.zIn) {
                     this.controls.CurrentZoomLevel++
-                        this.zoom.zIn = true
+                    this.zoom.zIn = true
                 }
                 break
             case "w":
                 if (!this.zoom.zOut) {
                     this.controls.CurrentZoomLevel--
-                        this.zoom.zIn = true
+                    this.zoom.zIn = true
                 }
                 break
             case " ":

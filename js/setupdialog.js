@@ -78,7 +78,7 @@ export default class SetupDialog {
         this.pot
         this.congratulations = document.createElement('h2')
         this.congratulations.classList.add('bitcoin-info')
-        this.congratulations.innerHTML = 'You won ฿'+pot
+        this.congratulations.innerHTML = 'You won ฿' + pot
 
         this.instructions = document.createElement('p')
         this.instructions.classList.add('bitcoin-info')
@@ -100,7 +100,7 @@ export default class SetupDialog {
         this.modal.appendChild(this.submitButton)
     }
 
-    async sendReward( ){
+    async sendReward() {
         //must validate address before accepting it
         await this.clear()
         this.payserver.sendDestinationAddress(this.token, this.destinationAddress.value)
