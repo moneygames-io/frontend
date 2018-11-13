@@ -76,9 +76,9 @@ export default class SetupDialog {
 
     setupReward(pot) {
         this.pot
-        this.congratulations = document.createElement('h2')
+        this.congratulations = document.createElement('h3')
         this.congratulations.classList.add('bitcoin-info')
-        this.congratulations.innerHTML = 'You won ฿' + pot
+        this.congratulations.innerHTML = 'You won ฿' + pot+ ' satoshi'
 
         this.instructions = document.createElement('p')
         this.instructions.classList.add('bitcoin-info')
