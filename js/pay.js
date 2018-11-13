@@ -64,7 +64,10 @@ export default class Pay {
         this.description = document.createElement('p')
         this.description.classList.add('bitcoin-info')
         this.description.innerHTML =
-            'Congratulations your reward has been sent to BitcoinAddress: ' +
+            'Congratulations ' +
+            this.pot +
+            ' Satoshi has been sent to' +
+            ' BitcoinAddress: ' +
             this.destinationAddress +
             ' with TransactionId: ' +
             this.transactionId
