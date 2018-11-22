@@ -45,7 +45,7 @@ export default class SetupDialog {
         this.name = this.getName()
         this.serverlist.leaveSpectatorMode()
         await this.clear()
-        this.payserver = new Pay(this.modal, this.payDone.bind(this), this.name)
+        this.payserver = new Pay(this.modal, this.payDone.bind(this), this.name, this)
     }
 
     async payDone(token) {
@@ -75,29 +75,44 @@ export default class SetupDialog {
     }
 
     setupReward(pot) {
-        this.pot
         this.congratulations = document.createElement('h3')
         this.congratulations.classList.add('bitcoin-info')
         this.congratulations.innerHTML = 'You won ฿' + pot+ ' satoshi'
+        this.modal.appendChild(this.congratulations)
 
         this.instructions = document.createElement('p')
         this.instructions.classList.add('bitcoin-info')
         this.instructions.innerHTML = 'Enter your reward destination address'
-
-        this.destinationAddress = document.createElement('input')
-        this.destinationAddress.classList.add('bitcoin-info')
-
-        this.submitButton = document.createElement('a')
-        this.submitButton.classList.add('waves-effect')
-        this.submitButton.classList.add('waves-light')
-        this.submitButton.classList.add('btn')
-        this.submitButton.innerHTML = 'Send'
-        this.submitButton.onclick = this.sendReward.bind(this)
-
-        this.modal.appendChild(this.congratulations)
         this.modal.appendChild(this.instructions)
-        this.modal.appendChild(this.destinationAddress)
-        this.modal.appendChild(this.submitButton)
+
+        this.setupDestination()
+    }
+
+    retryReward(){
+      this.congratulations = document.createElement('h3')
+      this.congratulations.classList.add('bitcoin-info')
+      this.congratulations.innerHTML = 'Error sending winnings'
+      this.modal.appendChild(this.congratulations)
+
+      this.instructions = document.createElement('p')
+      this.instructions.classList.add('bitcoin-info')
+      this.instructions.innerHTML = 'Re-Enter your bitcoin address'
+      this.modal.appendChild(this.instructions)
+
+      this.setupDestination()
+    }
+
+    setupDestination(){
+      this.destinationAddress = document.createElement('input')
+      this.destinationAddress.classList.add('bitcoin-info')
+      this.modal.appendChild(this.destinationAddress)
+      this.submitButton = document.createElement('a')
+      this.submitButton.classList.add('waves-effect')
+      this.submitButton.classList.add('waves-light')
+      this.submitButton.classList.add('btn')
+      this.submitButton.innerHTML = 'Send'
+      this.modal.appendChild(this.submitButton)
+      this.submitButton.onclick = this.sendReward.bind(this)
     }
 
     async sendReward() {

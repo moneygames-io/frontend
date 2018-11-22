@@ -46,7 +46,6 @@ export default class Gameserver extends Canvasobject {
 
     dataReceived(e) {
         let data = JSON.parse(e.data)
-        console.log(data)
 
         if ('pot' in data) {
             this.pot = data['pot']

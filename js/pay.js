@@ -2,7 +2,8 @@ import QRCode from 'qrcode'
 
 export default class Pay {
 
-    constructor(modal, paidCallback) {
+    constructor(modal, paidCallback, name, setupDialog) {
+        this.setupDialog = setupDialog
         this.paidCallback = paidCallback
         this.url = "ws://" + window.location.hostname + ":7000/ws"
         this.img = document.createElement('img')
@@ -44,6 +45,9 @@ export default class Pay {
             this.destinationAddress = data['destinationAddress']
             this.pot = data['pot']
             this.showTransaction()
+        }
+        if (data['error']) {
+            this.setupDialog.retryReward(this.pot)
         }
     }
 
