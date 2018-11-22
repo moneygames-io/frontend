@@ -64,7 +64,9 @@ img {
 }
 
 .bitcoin-info {
+    text-align: center;
     color: black;
+    word-wrap: break-word;
 }
 
 #container {
