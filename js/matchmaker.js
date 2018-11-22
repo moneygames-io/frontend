@@ -15,6 +15,7 @@ export default class Matchmaker {
         this.modal.appendChild(this.container)
 
         this.bar = this.createProgressBar()
+        this.countdown= false
     }
 
     createProgressBar() {
@@ -43,7 +44,12 @@ export default class Matchmaker {
                 if (value === 0) {
                     bar.setText('');
                 } else {
-                    bar.setText(this.currentClients + ' / ' + this.targetClients);
+                    if(this.countdown){
+                      bar.setText(this.current);
+                    }
+                    else{
+                      bar.setText(this.current + ' / ' + this.target);
+                    }
                 }
 
                 bar.text.style.color = state.color;
@@ -77,12 +83,16 @@ export default class Matchmaker {
             this.updateStatus(data['Status'])
         }
 
+        if (data['Time']) {
+            this.countdown=true
+            this.updateStatus(data['Time'])
+        }
     }
 
     updateStatus(s) {
-        this.currentClients = s.CurrentClients
-        this.targetClients = s.TargetClients
-        this.progress = s.CurrentClients / s.TargetClients
+        this.current = s.Current
+        this.target = s.Target
+        this.progress = s.Current / s.Target
         this.bar.animate(this.progress);
     }
 }
