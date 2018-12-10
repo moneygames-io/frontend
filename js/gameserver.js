@@ -16,21 +16,21 @@ export default class Gameserver extends Canvasobject {
             zOut: false
         }
         this.controls = {
-            CurrentDirection: 0,
-            CurrentSprint: false,
-            CurrentZoomLevel: 5
+            direction: 0,
+            isSprinting: false,
+            zoom: 10
         }
-        this.keyUpEventFunction = this.handleKeyDown.bind(this)
-        this.keyDownEventFunction = this.handleKeyDown.bind(this)
-        window.addEventListener('keydown', this.keyUpEventFunction, false)
-        window.addEventListener('keyup', this.keyDownEventFunction, false)
+
+        window.addEventListener('keydown', this.handleKeyUp.bind(this), false)
+        window.addEventListener('keyup', this.handleKeyDown.bind(this), false)
     }
 
     connect(token) {
         this.token = token
         this.socket = new WebSocket(this.gs)
+        this.socket.binaryType = "arraybuffer";
         this.socket.onopen = this.socketOpened.bind(this)
-        this.socket.onmessage = this.dataReceived.bind(this)
+        this.socket.onmessage = this.dataReceived.bind(this) // Onclose & Onerror for better error handling
     }
 
     socketOpened() {
@@ -38,43 +38,74 @@ export default class Gameserver extends Canvasobject {
         if (nickname == null) {
             nickname = 'unnamed'
         }
-        this.socket.send(JSON.stringify({
-            'Token': this.token,
-            'Name': nickname
-        }))
+
+        this.socket.send(new TextEncoder().encode(nickname+","+this.token))
     }
 
     dataReceived(e) {
-        let data = JSON.parse(e.data)
+        let data = new Int32Array(e.data)
+        let dataType = data[0]
 
-        if ('pot' in data) {
-            this.pot = data['pot']
-        }
+        if (dataType === 1) {
+            this.topLeftR = data[1]
+            this.topLeftC= data[2]
+            this.viewport = data[3]
+            this.mapsize = data[4]
 
-        if (data['Perspective']) {
-            this.colors = data['Perspective']
+            this.perspective = []
+            for (let i = 5; data[i] != -1; ) {
+                this.perspective.push([data[i], data[i+1], data[i+2]])
+                i += 3
+            }
+
+            this.buildColors()
+            // TODO Process leadermap
             window.requestAnimationFrame(this.render.bind(this))
-            // TODO unless spectating
-            this.sendKeyStatus()
         }
 
-        if (data['Leaderboard']) {
-            this.leaderboard.setLeaderboard(data['Leaderboard'])
-        }
-
-        if (data['Minimap']) {
-            this.minimap.setMinimap(data['Minimap'])
-        }
-
-        if (data['status'] == 'won') {
+        if (dataType === 2) {
             this.removeEventListeners()
             this.setupdialog.setupReward(this.pot)
             this.setupdialog.show()
         }
+        
+        if (dataType === 3) {
+            // TODO Lost
+        }
     }
 
-    removeEventListeners()
-    {
+    buildColors() {
+        this.colors = []
+        for (let r = 0; r < this.viewport; r++) {
+            this.colors.push(new Array(this.viewport))
+        }
+
+        for (let r = 0; r < this.viewport; r++) {
+            for (let c = 0; c < this.viewport; c++) {
+                let row = r + this.topLeftR
+                let col = c + this.topLeftC
+
+                if (row < this.mapsize && row >= 0 && col < this.mapsize && col >= 0) {
+                    this.colors[r][c] = 0xD3D3D3
+                } else {
+                    this.colors[r][c] = 0x000000
+                }
+            }
+        }
+
+        for (let i in this.perspective) {
+            let color = this.perspective[i][0]
+
+            if (color == 70) { color = 0x00ff00 }
+
+            let row = this.perspective[i][1] - this.topLeftR
+            let col = this.perspective[i][2] - this.topLeftC
+
+            this.colors[row][col] = color
+        }
+    }
+
+    removeEventListeners() {
         window.removeEventListener('keydown', this.keyUpEventFunction, false)
         window.removeEventListener('keyup', this.keyDownEventFunction, false)
     }
@@ -98,8 +129,8 @@ export default class Gameserver extends Canvasobject {
                 this.offset = (gameAreaSize / this.colors.length) * 0.01
                 super.getContext().fillStyle = this.toHexString(this.colors[r][c])
                 super.getContext().fillRect(
-                    (gameAreaSize / this.colors.length) * r + this.offset + (gameAreaOffsetW / 2),
-                    (gameAreaSize / this.colors[r].length) * c + this.offset + (gameAreaOffsetH / 2),
+                    (gameAreaSize / this.colors[r].length) * c + this.offset + (gameAreaOffsetW / 2),
+                    (gameAreaSize / this.colors.length) * r + this.offset + (gameAreaOffsetH / 2),
                     (gameAreaSize / this.colors.length) - (2 * this.offset),
                     (gameAreaSize / this.colors[r].length) - (2 * this.offset)
                 )
@@ -107,44 +138,50 @@ export default class Gameserver extends Canvasobject {
         }
     }
 
-    // TODO are these right? Is the map oriented wrong?
     handleKeyDown(e) {
         switch (e.key) {
             case "ArrowUp":
-                this.controls.CurrentDirection = 3
+                this.controls.direction = 0
+                this.sendKeyStatus()
                 break
             case "ArrowRight":
-                this.controls.CurrentDirection = 0
+                this.controls.direction = 1
+                this.sendKeyStatus()
                 break
             case "ArrowDown":
-                this.controls.CurrentDirection = 1
+                this.controls.direction = 2
+                this.sendKeyStatus()
                 break
             case "ArrowLeft":
-                this.controls.CurrentDirection = 2
+                this.controls.direction = 3
+                this.sendKeyStatus()
                 break
             case "q":
                 if (!this.zoom.zIn) {
-                    this.controls.CurrentZoomLevel++
+                    this.controls.zoom++
                     this.zoom.zIn = true
+                    this.sendKeyStatus() 
                 }
                 break
             case "w":
                 if (!this.zoom.zOut) {
-                    this.controls.CurrentZoomLevel--
-                    this.zoom.zIn = true
+                    this.controls.zoom--
+                    this.zoom.zOut = true
+                    this.sendKeyStatus() 
                 }
                 break
             case " ":
-                this.controls.CurrentSprint = true
+                this.controls.isSprinting = true
+                this.sendKeyStatus()
                 break
         }
-        this.sendKeyStatus()
     }
 
     handleKeyUp(e) {
         switch (e.key) {
             case " ":
-                this.controls.CurrentSprint = false
+                this.controls.isSprinting = false
+                this.sendKeyStatus() 
                 break
             case "q":
                 this.zoom.zIn = false
@@ -154,11 +191,15 @@ export default class Gameserver extends Canvasobject {
                 break
         }
 
-        this.sendKeyStatus()
     }
 
     sendKeyStatus() {
-        this.socket.send(JSON.stringify(this.controls))
+        let bytearray = new Uint8Array(3);
+        bytearray[0] = this.controls.direction
+        bytearray[1] = this.controls.zoom
+        bytearray[2] = this.controls.isSprinting ? 1 : 0 // TODO current required?
+        console.log(bytearray)
+        this.socket.send(bytearray.buffer)
     }
 
     render() {
