@@ -4,6 +4,7 @@ stages:
   - deploy
 
 before_script:
+  - whoami
   - docker info
   - echo $CI_PROJECT_NAME
   - echo $CI_COMMIT_REF_NAME
