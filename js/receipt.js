@@ -12,13 +12,10 @@ export default class Pay {
     }
 
     setupReward() {
-        this.payserver = new Reciept(this.modal, this.payDone.bind(this), this.name, this)
-
         this.congratulations = document.createElement('h2')
         this.congratulations.classList.add('bitcoin-info')
         this.congratulations.innerHTML = 'You won ฿'
         this.modal.appendChild(this.congratulations)
-
         this.instructions = document.createElement('p')
         this.instructions.classList.add('bitcoin-info')
         this.instructions.innerHTML = 'Enter your reward destination address'
@@ -32,7 +29,6 @@ export default class Pay {
         this.congratulations.classList.add('bitcoin-info')
         this.congratulations.innerHTML = 'Error sending winnings'
         this.modal.appendChild(this.congratulations)
-
         this.instructions = document.createElement('p')
         this.instructions.classList.add('bitcoin-info')
         this.instructions.innerHTML = 'Re-Enter your bitcoin address'
@@ -95,7 +91,6 @@ export default class Pay {
         this.sent = document.createElement('h2')
         this.sent.classList.add('bitcoin-info')
         this.sent.innerHTML = 'Sent'
-
         this.description = document.createElement('p')
         this.description.classList.add('bitcoin-info')
         this.description.innerHTML =
