@@ -39,7 +39,7 @@ export default class Gameserver extends Canvasobject {
             nickname = 'unnamed'
         }
 
-        this.socket.send(new TextEncoder().encode(nickname+","+this.token))
+        this.socket.send(new TextEncoder().encode(nickname + "," + this.token))
     }
 
     dataReceived(e) {
@@ -48,13 +48,13 @@ export default class Gameserver extends Canvasobject {
 
         if (dataType === 1) {
             this.topLeftR = data[1]
-            this.topLeftC= data[2]
+            this.topLeftC = data[2]
             this.viewport = data[3]
             this.mapsize = data[4]
 
             this.perspective = []
-            for (let i = 5; data[i] != -1; ) {
-                this.perspective.push([data[i], data[i+1], data[i+2]])
+            for (let i = 5; data[i] != -1;) {
+                this.perspective.push([data[i], data[i + 1], data[i + 2]])
                 i += 3
             }
 
@@ -65,10 +65,10 @@ export default class Gameserver extends Canvasobject {
 
         if (dataType === 2) {
             this.removeEventListeners()
-            this.setupdialog.setupReward(this.pot)
+            this.setupdialog.setupReciept()
             this.setupdialog.show()
         }
-        
+
         if (dataType === 3) {
             // TODO Lost
         }
@@ -96,7 +96,9 @@ export default class Gameserver extends Canvasobject {
         for (let i in this.perspective) {
             let color = this.perspective[i][0]
 
-            if (color == 70) { color = 0x00ff00 }
+            if (color == 70) {
+                color = 0x00ff00
+            }
 
             let row = this.perspective[i][1] - this.topLeftR
             let col = this.perspective[i][2] - this.topLeftC
@@ -160,14 +162,14 @@ export default class Gameserver extends Canvasobject {
                 if (!this.zoom.zIn) {
                     this.controls.zoom++
                     this.zoom.zIn = true
-                    this.sendKeyStatus() 
+                    this.sendKeyStatus()
                 }
                 break
             case "w":
                 if (!this.zoom.zOut) {
                     this.controls.zoom--
                     this.zoom.zOut = true
-                    this.sendKeyStatus() 
+                    this.sendKeyStatus()
                 }
                 break
             case " ":
@@ -181,7 +183,7 @@ export default class Gameserver extends Canvasobject {
         switch (e.key) {
             case " ":
                 this.controls.isSprinting = false
-                this.sendKeyStatus() 
+                this.sendKeyStatus()
                 break
             case "q":
                 this.zoom.zIn = false

@@ -60,25 +60,6 @@ export default class Pay {
         this.socket.send(JSON.stringify(msg))
     }
 
-    showTransaction() {
-        this.sent = document.createElement('h2')
-        this.sent.classList.add('bitcoin-info')
-        this.sent.innerHTML = 'Sent'
-
-        this.description = document.createElement('p')
-        this.description.classList.add('bitcoin-info')
-        this.description.innerHTML =
-            'Congratulations ' +
-            this.pot +
-            ' Satoshi has been sent to' +
-            ' BitcoinAddress: ' +
-            this.destinationAddress +
-            ' with TransactionId: ' +
-            this.transactionId
-        this.modal.appendChild(this.sent)
-        this.modal.appendChild(this.description)
-    }
-
     saveToken(token) {
         this.token = token
         window.localStorage.setItem("token", token)

@@ -15,7 +15,7 @@ export default class Matchmaker {
         this.modal.appendChild(this.container)
 
         this.bar = this.createProgressBar()
-        this.countdown= false
+        this.countdown = false
     }
 
     createProgressBar() {
@@ -44,11 +44,10 @@ export default class Matchmaker {
                 if (value === 0) {
                     bar.setText('');
                 } else {
-                    if(this.countdown){
-                      bar.setText(this.current);
-                    }
-                    else{
-                      bar.setText(this.current + ' / ' + this.target);
+                    if (this.countdown) {
+                        bar.setText(this.current);
+                    } else {
+                        bar.setText(this.current + ' / ' + this.target);
                     }
                 }
 
@@ -84,7 +83,7 @@ export default class Matchmaker {
         }
 
         if (data['Time']) {
-            this.countdown=true
+            this.countdown = true
             this.updateStatus(data['Time'])
         }
     }
