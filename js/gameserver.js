@@ -65,7 +65,7 @@ export default class Gameserver extends Canvasobject {
 
         if (dataType === 2) {
             this.removeEventListeners()
-            this.setupdialog.setupReciept()
+            this.setupdialog.setupReceipt()
             this.setupdialog.show()
         }
 

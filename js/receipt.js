@@ -7,7 +7,7 @@ export default class Pay {
         this.paidCallback = paidCallback
         this.url = "ws://" + window.location.hostname + ":7002/ws"
         this.socket = new WebSocket(this.url)
-        this.socket.onmessage = this.recieptMessage.bind(this)
+        this.socket.onmessage = this.receiptMessage.bind(this)
         this.setupReward()
     }
 
@@ -61,7 +61,7 @@ export default class Pay {
         this.socket.onmessage = this.payserverMessage.bind(this)
     }
 
-    recieptMessage(e) {
+    receiptMessage(e) {
         let data = JSON.parse(e.data)
         if (data['transactionId']) {
             this.transactionId = data['transactionId']

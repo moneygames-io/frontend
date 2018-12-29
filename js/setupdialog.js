@@ -48,9 +48,9 @@ export default class SetupDialog {
         this.payserver = new Pay(this.modal, this.payDone.bind(this), this.name, this)
     }
 
-    async setupReciept() {
+    async setupReceipt() {
         await this.clear()
-        this.payserver = new Reciept(this.modal, this)
+        this.payserver = new Receipt(this.modal, this)
     }
 
     async payDone(token) {
