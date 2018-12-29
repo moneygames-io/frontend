@@ -3,8 +3,10 @@ import QRCode from 'qrcode'
 export default class Pay {
 
     constructor(modal, setupDialog) {
+        console.log("2")
+        this.modal = modal
+        this.token = setupDialog.token
         this.setupDialog = setupDialog
-        this.paidCallback = paidCallback
         this.url = "ws://" + window.location.hostname + ":7002/ws"
         this.socket = new WebSocket(this.url)
         this.socket.onmessage = this.receiptMessage.bind(this)
@@ -12,6 +14,7 @@ export default class Pay {
     }
 
     setupReward() {
+        console.log("3")
         this.congratulations = document.createElement('h2')
         this.congratulations.classList.add('bitcoin-info')
         this.congratulations.innerHTML = 'You won ฿'
@@ -20,7 +23,6 @@ export default class Pay {
         this.instructions.classList.add('bitcoin-info')
         this.instructions.innerHTML = 'Enter your reward destination address'
         this.modal.appendChild(this.instructions)
-
         this.setupDestination()
     }
 
@@ -33,11 +35,11 @@ export default class Pay {
         this.instructions.classList.add('bitcoin-info')
         this.instructions.innerHTML = 'Re-Enter your bitcoin address'
         this.modal.appendChild(this.instructions)
-
         this.setupDestination()
     }
 
     setupDestination() {
+        console.log("4")
         this.destinationAddress = document.createElement('input')
         this.destinationAddress.classList.add('bitcoin-info')
         this.modal.appendChild(this.destinationAddress)
@@ -52,8 +54,8 @@ export default class Pay {
 
     async sendReward() {
         //must validate address before accepting it
-        await this.clear()
-        this.payserver.sendDestinationAddress(this.token, this.destinationAddress.value)
+        await this.setupDialog.clear()
+        this.sendDestinationAddress(this.token, this.destinationAddress.value)
     }
 
     getPot() {

@@ -1,6 +1,7 @@
 import ServerList from './serverlist.js'
 import Pay from './pay.js'
 import Matchmaker from './matchmaker.js'
+import Receipt from './receipt.js'
 
 export default class SetupDialog {
     constructor() {
