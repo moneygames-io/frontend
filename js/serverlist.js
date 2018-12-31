@@ -9,6 +9,7 @@ export default class ServerList {
     }
 
     async getData() {
+        return
         while (true) {
             let response = await axios.get("http://" + window.location.hostname + ":6001/games")
             this.clearTable()
