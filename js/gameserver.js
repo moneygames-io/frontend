@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 import Canvasobject from './canvasobject.js'
 
 import Leaderboard from './leaderboard.js'
@@ -7,8 +9,8 @@ export default class Gameserver extends Canvasobject {
 
     constructor(gs, sd) {
         super('game-area')
-        this.gs = gs
-        this.setupdialog = sd
+        this.port = gs
+        this.setupdialog = sd // TODO ? 
         this.leaderboard = new Leaderboard()
         this.minimap = new Minimap()
         this.zoom = {
@@ -26,23 +28,67 @@ export default class Gameserver extends Canvasobject {
     }
 
     connect(token) {
-        this.token = token
-        this.socket = new WebSocket(this.gs)
-        this.socket.binaryType = "arraybuffer";
-        this.socket.onopen = this.socketOpened.bind(this)
-        this.socket.onmessage = this.dataReceived.bind(this) // Onclose & Onerror for better error handling
+
+        console.log("connect called")
+
+        let peerConnection = new RTCPeerConnection({
+            iceServers: [{
+                urls: 'stun:stun.l.google.com:19302'
+            }]
+        })
+        peerConnection.oniceconnectionstatechange = e => console.log(peerConnection)
+
+        peerConnection.onicecandidate = event => {
+            console.log("here")
+            let offer = ""
+            if (event.candidate === null) {
+                offer = btoa(JSON.stringify(peerConnection.localDescription))
+                console.log(peerConnection.localDescription)
+
+                let name = window.localStorage.getItem('name')
+                if (name == null) {
+                    name = 'unnamed'
+                }
+
+
+                axios.post("http://" + window.location.hostname + ":" + this.port + "/player", {
+                        'token': token,
+                        'name': name,
+                        'offer': offer
+                    })
+                    .then(function(response) {
+                        let sd = response.data
+                        try {
+                            peerConnection.setRemoteDescription(new RTCSessionDescription(JSON.parse(atob(sd))))
+                            console.log(new RTCSessionDescription(JSON.parse(atob(sd))))
+                        } catch (e) {
+                            alert(e)
+                        }
+                    })
+            }
+        }
+
+        let sendChannel = peerConnection.createDataChannel('foo', {
+            'ordered': false,
+            'maxRetransmits': 0
+        })
+        this.socket = sendChannel
+        sendChannel.onclose = () => console.log('sendChannel has closed')
+        sendChannel.onopen = this.socketOpened.bind(this)
+        sendChannel.onmessage = this.dataReceived.bind(this)
+
+        peerConnection.onnegotiationneeded = e => peerConnection.createOffer().then(d => peerConnection.setLocalDescription(d)).catch(log)
+
     }
 
     socketOpened() {
-        let nickname = window.localStorage.getItem('nickname')
-        if (nickname == null) {
-            nickname = 'unnamed'
-        }
-
-        this.socket.send(new TextEncoder().encode(nickname + "," + this.token))
+        console.log("openend")
+        this.time = performance.now()
     }
 
     dataReceived(e) {
+        console.log(performance.now() - this.time)
+        this.time = performance.now()
         let data = new Int32Array(e.data)
         let dataType = data[0]
 
