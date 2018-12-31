@@ -77,7 +77,7 @@ export default class SetupDialog {
     setupReward(pot) {
         this.congratulations = document.createElement('h2')
         this.congratulations.classList.add('bitcoin-info')
-        this.congratulations.innerHTML = 'You won ฿' + pot+ ' satoshi'
+        this.congratulations.innerHTML = 'You won ฿' + pot + ' satoshi'
         this.modal.appendChild(this.congratulations)
 
         this.instructions = document.createElement('p')
@@ -88,31 +88,31 @@ export default class SetupDialog {
         this.setupDestination()
     }
 
-    retryReward(){
-      this.congratulations = document.createElement('h3')
-      this.congratulations.classList.add('bitcoin-info')
-      this.congratulations.innerHTML = 'Error sending winnings'
-      this.modal.appendChild(this.congratulations)
+    retryReward() {
+        this.congratulations = document.createElement('h3')
+        this.congratulations.classList.add('bitcoin-info')
+        this.congratulations.innerHTML = 'Error sending winnings'
+        this.modal.appendChild(this.congratulations)
 
-      this.instructions = document.createElement('p')
-      this.instructions.classList.add('bitcoin-info')
-      this.instructions.innerHTML = 'Re-Enter your bitcoin address'
-      this.modal.appendChild(this.instructions)
+        this.instructions = document.createElement('p')
+        this.instructions.classList.add('bitcoin-info')
+        this.instructions.innerHTML = 'Re-Enter your bitcoin address'
+        this.modal.appendChild(this.instructions)
 
-      this.setupDestination()
+        this.setupDestination()
     }
 
-    setupDestination(){
-      this.destinationAddress = document.createElement('input')
-      this.destinationAddress.classList.add('bitcoin-info')
-      this.modal.appendChild(this.destinationAddress)
-      this.submitButton = document.createElement('a')
-      this.submitButton.classList.add('waves-effect')
-      this.submitButton.classList.add('waves-light')
-      this.submitButton.classList.add('btn')
-      this.submitButton.innerHTML = 'Send'
-      this.modal.appendChild(this.submitButton)
-      this.submitButton.onclick = this.sendReward.bind(this)
+    setupDestination() {
+        this.destinationAddress = document.createElement('input')
+        this.destinationAddress.classList.add('bitcoin-info')
+        this.modal.appendChild(this.destinationAddress)
+        this.submitButton = document.createElement('a')
+        this.submitButton.classList.add('waves-effect')
+        this.submitButton.classList.add('waves-light')
+        this.submitButton.classList.add('btn')
+        this.submitButton.innerHTML = 'Send'
+        this.modal.appendChild(this.submitButton)
+        this.submitButton.onclick = this.sendReward.bind(this)
     }
 
     async sendReward() {

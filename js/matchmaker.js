@@ -15,7 +15,7 @@ export default class Matchmaker {
         this.modal.appendChild(this.container)
 
         this.bar = this.createProgressBar()
-        this.countdown= false
+        this.countdown = false
     }
 
     createProgressBar() {
@@ -39,24 +39,23 @@ export default class Matchmaker {
             },
             // Set default step function for all animate calls
             step: (state, bar) => {
-                bar.path.setAttribute('stroke', state.color);
-                var value = Math.round(bar.value() * 100);
+                bar.path.setAttribute('stroke', state.color)
+                var value = Math.round(bar.value() * 100)
                 if (value === 0) {
-                    bar.setText('');
+                    bar.setText('')
                 } else {
-                    if(this.countdown){
-                      bar.setText(this.current);
-                    }
-                    else{
-                      bar.setText(this.current + ' / ' + this.target);
+                    if (this.countdown) {
+                        bar.setText(this.current)
+                    } else {
+                        bar.setText(this.current + ' / ' + this.target)
                     }
                 }
 
-                bar.text.style.color = state.color;
+                bar.text.style.color = state.color
             }
-        });
-        bar.text.style.fontFamily = '"Raleway", Helvetica, sans-serif';
-        bar.text.style.fontSize = '2rem';
+        })
+        bar.text.style.fontFamily = '"Raleway", Helvetica, sans-serif'
+        bar.text.style.fontSize = '2rem'
         return bar
     }
 
@@ -76,7 +75,7 @@ export default class Matchmaker {
     matchmakingMessage(e) {
         let data = JSON.parse(e.data)
         if (data['Port']) {
-            this.matchmakerCallback(this.token, "ws://" + window.location.hostname + ":" + data['Port'] + "/ws")
+            this.matchmakerCallback(this.token, data['Port'])
         }
 
         if (data['Status']) {
@@ -84,7 +83,7 @@ export default class Matchmaker {
         }
 
         if (data['Time']) {
-            this.countdown=true
+            this.countdown = true
             this.updateStatus(data['Time'])
         }
     }
@@ -93,6 +92,6 @@ export default class Matchmaker {
         this.current = s.Current
         this.target = s.Target
         this.progress = s.Current / s.Target
-        this.bar.animate(this.progress);
+        this.bar.animate(this.progress)
     }
 }
