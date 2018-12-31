@@ -111,7 +111,7 @@ export default class Gameserver extends Canvasobject {
 
         if (dataType === 2) {
             this.removeEventListeners()
-            this.setupdialog.setupReward(this.pot)
+            this.setupdialog.setupReceipt()
             this.setupdialog.show()
         }
 
@@ -207,7 +207,7 @@ export default class Gameserver extends Canvasobject {
             case "q":
                 if (!this.zoom.zIn) {
                     this.controls.zoom++
-                   this.zoom.zIn = true
+                    this.zoom.zIn = true
                     this.sendKeyStatus()
                 }
                 break
