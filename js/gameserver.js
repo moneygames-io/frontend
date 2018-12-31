@@ -68,7 +68,10 @@ export default class Gameserver extends Canvasobject {
             }
         }
 
-        let sendChannel = peerConnection.createDataChannel('foo')
+        let sendChannel = peerConnection.createDataChannel('foo', {
+            'ordered': false,
+            'maxRetransmits': 0
+        })
         this.socket = sendChannel
         sendChannel.onclose = () => console.log('sendChannel has closed')
         sendChannel.onopen = this.socketOpened.bind(this)
