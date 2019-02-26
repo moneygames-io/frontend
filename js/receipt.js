@@ -68,7 +68,7 @@ export default class Pay {
         if (data['transactionId']) {
             this.transactionId = data['transactionId']
             this.destinationAddress = data['destinationAddress']
-            this.pot = data['pot']
+            this.winnings = data['winnings']
             this.showTransaction()
         }
         if (data['pot']) {
