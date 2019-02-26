@@ -97,7 +97,7 @@ export default class Pay {
         this.description.classList.add('bitcoin-info')
         this.description.innerHTML =
             'Congratulations ' +
-            this.pot +
+            this.winnings +
             ' Satoshi has been sent to' +
             ' BitcoinAddress: ' +
             this.destinationAddress +
