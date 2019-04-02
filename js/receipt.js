@@ -65,7 +65,8 @@ export default class Pay {
 
     receiptMessage(e) {
         let data = JSON.parse(e.data)
-        if (data['transactionId']) {
+        console.log(data)
+        if (data['status'] == 'paid out') {
             this.transactionId = data['transactionId']
             this.destinationAddress = data['destinationAddress']
             this.winnings = data['winnings']
@@ -77,6 +78,9 @@ export default class Pay {
         }
         if (data['error']) {
             this.retryReward(this.pot)
+        }
+        if (data['status'] == 'pending pay'){
+            console.log('pending pay');
         }
     }
 
