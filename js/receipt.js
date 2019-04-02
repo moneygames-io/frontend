@@ -68,6 +68,7 @@ export default class Pay {
         let data = JSON.parse(e.data)
         console.log(data)
         if (data['status'] == 'paid out') {
+            this.modal.innerHTML = ""
             this.transactionId = data['transactionId']
             this.destinationAddress = data['destinationAddress']
             this.winnings = data['winnings']
@@ -81,7 +82,7 @@ export default class Pay {
             this.retryReward(this.pot)
         }
         if (data['status'] == 'pending pay'){
-            await this.setupDialog.clear()
+            this.modal.innerHTML = ""
             this.description = document.createElement('p')
             this.description.innerHTML =
               'Winning payment initated to address: '
@@ -90,9 +91,9 @@ export default class Pay {
               +data['unconfirmed']
               +'/'
               +data['confirmed']
-              +'/n waiting on the following addresses to confirm transaction '
+              +'/n Waiting on the following addresses to confirm transaction '
               +data['pendingAddresses']
-              +'\nthis could take up to 15 minutes'; 
+              +'\nThis could take up to 15 minutes';
             this.modal.appendChild(this.description)
         }
     }
