@@ -55,6 +55,7 @@ export default class Pay {
     async sendReward() {
         //must validate address before accepting it
         await this.setupDialog.clear()
+        this.destination = this.destinationAddress.value
         this.sendDestinationAddress(this.token, this.destinationAddress.value)
     }
 
@@ -80,7 +81,19 @@ export default class Pay {
             this.retryReward(this.pot)
         }
         if (data['status'] == 'pending pay'){
-            console.log('pending pay');
+            await this.setupDialog.clear()
+            this.description = document.createElement('p')
+            this.description.innerHTML =
+              'Winning payment initated to address: '
+              +this.destination
+              +'\n Confirmed santoshi = '
+              +data['unconfirmed']
+              +'/'
+              +data['confirmed']
+              +'/n waiting on the following addresses to confirm transaction '
+              +data['pendingAddresses']
+              +'\nthis could take up to 15 minutes'; 
+            this.modal.appendChild(this.description)
         }
     }
 
