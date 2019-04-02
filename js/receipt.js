@@ -81,19 +81,21 @@ export default class Pay {
         if (data['error']) {
             this.retryReward(this.pot)
         }
-        if (data['status'] == 'pending pay'){
+        if (data['status'] == 'pending pay') {
             this.modal.innerHTML = ""
             this.description = document.createElement('p')
             this.description.innerHTML =
-              'Winning payment initated to address: '
-              +this.destination
-              +'\n Confirmed santoshi = '
-              +data['unconfirmed']
-              +'/'
-              +data['confirmed']
-              +'/n Waiting on the following addresses to confirm transaction '
-              +data['pendingAddresses']
-              +'\nThis could take up to 15 minutes';
+                'Winning payment initated to address: ' + this.destination +
+                '\nThis payment may take up to 15 minutes' +
+                '\n Confirmed santoshi = ' + data['unconfirmed'] + '/' + data['confirmed'] +
+                '\n Waiting on the following addresses to confirm transaction: ';
+            for (addr in data['pendingAddresses']) {
+                var link = document.createElement('a');
+                link.text = addr;
+                link.href = 'https://live.blockcypher.com/btc/address/' + addr;
+                this.modal.appendChild(this.link)
+
+            }
             this.modal.appendChild(this.description)
         }
     }
