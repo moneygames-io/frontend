@@ -66,7 +66,6 @@ export default class Pay {
 
     receiptMessage(e) {
         let data = JSON.parse(e.data)
-        console.log(data)
         if (data['status'] == 'paid out') {
             this.modal.innerHTML = ""
             this.transactionId = data['transactionId']
@@ -103,16 +102,18 @@ export default class Pay {
                 '/' +
                 data['unconfirmed'] +
                 '. This payment may take up to 15 minutes. ' +
-                'Waiting on the following addresses to confirm transaction: ';
-            this.modal.appendChild(this.description);
+                'Waiting on the following addresses to confirm their transactions:';
+            this.modal.appendChild(description);
 
-            for (i in data['pendingAddresses']) {
-                var addr = data['pendingAddresses'][i];
+            for (var key in data['pendingAddresses']) {
+                var addr = data['pendingAddresses'][key];
                 var link = document.createElement('a');
+                var br = document.createElement('br');
                 link.text = addr;
                 link.href = 'https://live.blockcypher.com/btc/address/' + addr;
                 link.target = '_blank';
                 this.modal.appendChild(link);
+                this.modal.appendChild(br);
             }
         }
     }
