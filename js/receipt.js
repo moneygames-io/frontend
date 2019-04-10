@@ -105,10 +105,8 @@ export default class Pay {
                 ' Use the following link to check the status of your reciept:';
             this.modal.appendChild(description);
 
-            var addr = data['pendingAddresses'][key];
             var link = document.createElement('a');
-            var br = document.createElement('br');
-            var receipt = document.location.origin + '//token=' + data['token'];
+            var receipt = document.location.origin + ':9000/token=' + data['token'];
             link.text = receipt;
             link.href = receipt;
             link.target = '_blank';
