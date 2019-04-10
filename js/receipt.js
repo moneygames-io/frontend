@@ -101,20 +101,17 @@ export default class Pay {
                 data['confirmed'] +
                 '/' +
                 data['unconfirmed'] +
-                '. This payment may take up to 15 minutes. ' +
-                'Waiting on the following addresses to confirm their transactions:';
+                '. Waiting for the entry payments to be confirmed. This payment may take up to 15 minutes.' +
+                ' Use the following link to check the status of your reciept:';
             this.modal.appendChild(description);
 
-            for (var key in data['pendingAddresses']) {
-                var addr = data['pendingAddresses'][key];
-                var link = document.createElement('a');
-                var br = document.createElement('br');
-                link.text = addr;
-                link.href = 'https://live.blockcypher.com/btc/address/' + addr;
-                link.target = '_blank';
-                this.modal.appendChild(link);
-                this.modal.appendChild(br);
-            }
+            var link = document.createElement('a');
+            var receipt = document.location.origin + '/?token=' + data['token'];
+            link.text = receipt;
+            link.href = receipt;
+            link.target = '_blank';
+            this.modal.appendChild(link);
+            window.localStorage.removeItem("token")
         }
     }
 
