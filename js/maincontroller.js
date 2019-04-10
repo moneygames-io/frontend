@@ -10,7 +10,7 @@ class MainController {
     async checkForDisconnectToken() {
         let token = window.localStorage.getItem("token")
         var urlParams = new URLSearchParams(window.location.search);
-        if(urlParams.has("token")){
+        if (urlParams.has("token")) {
             window.localStorage.setItem("token", urlParams.get("token"));
         }
         if (token != null) {
