@@ -106,7 +106,7 @@ export default class Pay {
             this.modal.appendChild(description);
 
             var link = document.createElement('a');
-            var receipt = document.location.origin + ':9000/token=' + data['token'];
+            var receipt = document.location.origin + '/?token=' + data['token'];
             link.text = receipt;
             link.href = receipt;
             link.target = '_blank';
