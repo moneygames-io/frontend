@@ -51,7 +51,44 @@ export default class SetupDialog {
 
     async setupReceipt() {
         await this.clear()
-        this.payserver = new Receipt(this.modal, this)
+        this.receipt = new Receipt(this.modal, this)
+    }
+
+    async showReceipt(data) {
+        await this.clear()
+        this.modal.innerHTML = "";
+
+        var paymentTitle = document.createElement('h5');
+        paymentTitle.innerHTML = 'Winning payment initated to address: ';
+        this.modal.appendChild(paymentTitle);
+
+        var link = document.createElement('a');
+        link.text = data.DestinationAddress;
+        link.href = 'https://live.blockcypher.com/btc/address/' + data.DestinationAddress;
+        link.target = '_blank';
+        this.modal.appendChild(link);
+
+        var description = document.createElement('p');
+        description.innerHTML =
+            'Confirmed santoshi = ' +
+            data['Confirmed'] +
+            '/' +
+            data['Unconfirmed'] +
+            '. This payment may take up to 15 minutes. ' +
+            'Waiting on the following addresses to confirm their transactions:';
+        this.modal.appendChild(description);
+
+        for (var key in data.PendingAddresses) {
+            var addr = data.PendingAddresses[key];
+            var link = document.createElement('a');
+            var br = document.createElement('br');
+            link.text = addr;
+            link.href = 'https://live.blockcypher.com/btc/address/' + addr;
+            link.target = '_blank';
+            this.modal.appendChild(link);
+            this.modal.appendChild(br);
+        }
+
     }
 
     async payDone(token) {
