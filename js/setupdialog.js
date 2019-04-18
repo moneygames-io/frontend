@@ -59,7 +59,11 @@ export default class SetupDialog {
         this.modal.innerHTML = "";
 
         var paymentTitle = document.createElement('h5');
-        paymentTitle.innerHTML = 'Winning payment initated to address: ';
+        if (data.Unconfirmed < data.Confirmed) {
+            paymentTitle.innerHTML = 'Winning payment initated to address: ';
+        } else {
+            paymentTitle.innerHTML = 'Winning payment sent to address: ';
+        }
         this.modal.appendChild(paymentTitle);
 
         var link = document.createElement('a');
@@ -68,12 +72,16 @@ export default class SetupDialog {
         link.target = '_blank';
         this.modal.appendChild(link);
 
+        if (data.Unconfirmed > data.Confirmed) {
+            return;
+        }
+
         var description = document.createElement('p');
         description.innerHTML =
             'Confirmed santoshi = ' +
-            data['Confirmed'] +
+            data.Confirmed +
             '/' +
-            data['Unconfirmed'] +
+            data.Unconfirmed +
             '. This payment may take up to 15 minutes. ' +
             'Waiting on the following addresses to confirm their transactions:';
         this.modal.appendChild(description);
